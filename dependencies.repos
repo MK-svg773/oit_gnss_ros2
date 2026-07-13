@@ -1,0 +1,9 @@
+repositories:
+  ublox:
+    type: git
+    url: https://github.com/KumarRobotics/ublox.git
+    version: 3a3e1c253722b68e350a60aee6ef399d8c2304cb # ROS 2 tag 3.0.0
+  ntrip_client:
+    type: git
+    url: https://github.com/LORD-MicroStrain/ntrip_client.git
+    version: ad5c1f0138792d8ba630d91129396063ea918191 # ROS 2 tag 1.4.1

@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.8)
+project(oit_gnss_bringup)
+find_package(ament_cmake REQUIRED)
+install(DIRECTORY launch config DESTINATION share/${PROJECT_NAME})
+install(PROGRAMS scripts/validate_required_topics.py DESTINATION lib/${PROJECT_NAME} RENAME validate_topics)
+ament_package()

@@ -1,0 +1,9 @@
+*.bag
+*.db3
+*.mcap
+rosbag2_*/
+log/
+build/
+install/
+__pycache__/
+*.pyc

@@ -1,0 +1,12 @@
+profile:
+  name: f9p_ichimill
+  verified: false
+receiver:
+  device: /dev/ttyACM0
+  frame_id: gps
+  baudrate: 115200
+  measurement_rate_hz: 1.0
+  nav_rate: 1
+  dynamic_model: automotive
+publish: {nav_pvt: true, nav_sat: true, rxm_rawx: true}
+ntrip: {enabled: true, rtcm_topic: /rtcm, reconnect_delay_sec: 5.0, timeout_sec: 10.0}

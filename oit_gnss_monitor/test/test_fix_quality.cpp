@@ -1,0 +1,8 @@
+#include <gtest/gtest.h>
+#include <limits>
+#include "oit_gnss_monitor/fix_quality.hpp"
+using oit_gnss_monitor::QualityLimits; using oit_gnss_monitor::QualityState; using oit_gnss_monitor::evaluate_fix;
+static sensor_msgs::msg::NavSatFix valid_fix() { sensor_msgs::msg::NavSatFix f; f.header.stamp.sec = 100; f.latitude = 35.0; f.longitude = 139.0; f.status.status = sensor_msgs::msg::NavSatStatus::STATUS_FIX; f.position_covariance = {1.0,0,0,0,1.0,0,0,0,1.0}; return f; }
+TEST(FixQuality, AcceptsValidAndRecovers) { auto f=valid_fix(); EXPECT_TRUE(evaluate_fix(f, 101000000000LL, {}, {}).accepted); f.latitude=std::numeric_limits<double>::quiet_NaN(); EXPECT_FALSE(evaluate_fix(f,101000000000LL,{},{}).accepted); EXPECT_TRUE(evaluate_fix(valid_fix(),101000000000LL,{},{}).accepted); }
+TEST(FixQuality, RejectsInvalidValues) { auto f=valid_fix(); f.latitude=91; EXPECT_FALSE(evaluate_fix(f,101000000000LL,{},{}).accepted); f=valid_fix(); f.longitude=std::numeric_limits<double>::infinity(); EXPECT_FALSE(evaluate_fix(f,101000000000LL,{},{}).accepted); f=valid_fix(); f.status.status=sensor_msgs::msg::NavSatStatus::STATUS_NO_FIX; EXPECT_FALSE(evaluate_fix(f,101000000000LL,{},{}).accepted); }
+TEST(FixQuality, RejectsTimingCovarianceAndPrecision) { auto f=valid_fix(); EXPECT_FALSE(evaluate_fix(f,103000000000LL,{},{}).accepted); f=valid_fix(); f.position_covariance[0]=std::numeric_limits<double>::infinity(); EXPECT_FALSE(evaluate_fix(f,101000000000LL,{},{}).accepted); f=valid_fix(); f.position_covariance[0]=100; f.position_covariance[4]=100; EXPECT_FALSE(evaluate_fix(f,101000000000LL,{},{}).accepted); f=valid_fix(); QualityState s{101000000000LL}; EXPECT_FALSE(evaluate_fix(f,101000000000LL,{},s).accepted); }

@@ -1,0 +1,5 @@
+fix_quality_monitor:
+  ros__parameters:
+    max_horizontal_stddev: 5.0
+    max_vertical_stddev: 10.0
+    max_age_sec: 2.0
