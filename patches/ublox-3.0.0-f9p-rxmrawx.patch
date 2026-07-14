@@ -1,0 +1,45 @@
+diff --git a/ublox_gps/include/ublox_gps/hpg_rov_product.hpp b/ublox_gps/include/ublox_gps/hpg_rov_product.hpp
+index 2474e1c..1baa0c8 100644
+--- a/ublox_gps/include/ublox_gps/hpg_rov_product.hpp
++++ b/ublox_gps/include/ublox_gps/hpg_rov_product.hpp
+@@ -7,6 +7,7 @@
+ #include <rclcpp/rclcpp.hpp>
+ 
+ #include <ublox_msgs/msg/nav_relposned.hpp>
++#include <ublox_msgs/msg/rxm_rawx.hpp>
+ 
+ #include <ublox_gps/component_interface.hpp>
+@@ -84,6 +85,7 @@ class HpgRovProduct final : public virtual ComponentInterface {
+   std::unique_ptr<UbloxTopicDiagnostic> freq_rtcm_;
+ 
+   rclcpp::Publisher<ublox_msgs::msg::NavRELPOSNED>::SharedPtr nav_rel_pos_ned_pub_;
++  rclcpp::Publisher<ublox_msgs::msg::RxmRAWX>::SharedPtr rxm_rawx_pub_;
+ 
+   uint16_t nav_rate_;
+diff --git a/ublox_gps/src/hpg_rov_product.cpp b/ublox_gps/src/hpg_rov_product.cpp
+index 76baef2..6c7f07d 100644
+--- a/ublox_gps/src/hpg_rov_product.cpp
++++ b/ublox_gps/src/hpg_rov_product.cpp
+@@ -9,6 +9,7 @@
+ 
+ #include <ublox_msgs/msg/cfg_dgnss.hpp>
+ #include <ublox_msgs/msg/nav_relposned.hpp>
++#include <ublox_msgs/msg/rxm_rawx.hpp>
+ 
+ #include <ublox_gps/gps.hpp>
+@@ -27,6 +28,9 @@ HpgRovProduct::HpgRovProduct(uint16_t nav_rate, std::shared_ptr<diagnostic_updat
+     nav_rel_pos_ned_pub_ =
+       node_->create_publisher<ublox_msgs::msg::NavRELPOSNED>("navrelposned", 1);
+   }
++  if (getRosBoolean(node_, "publish.rxm.raw")) {
++    rxm_rawx_pub_ = node_->create_publisher<ublox_msgs::msg::RxmRAWX>("rxmrawx", 1);
++  }
+ }
+@@ -47,6 +51,10 @@ void HpgRovProduct::subscribe(std::shared_ptr<ublox_gps::Gps> gps) {
+   gps->subscribe<ublox_msgs::msg::NavRELPOSNED>(std::bind(
+      &HpgRovProduct::callbackNavRelPosNed, this, std::placeholders::_1), 1);
++  if (getRosBoolean(node_, "publish.rxm.raw")) {
++    gps->subscribe<ublox_msgs::msg::RxmRAWX>(
++      [this](const ublox_msgs::msg::RxmRAWX & message) { rxm_rawx_pub_->publish(message); }, 1);
++  }
+ }

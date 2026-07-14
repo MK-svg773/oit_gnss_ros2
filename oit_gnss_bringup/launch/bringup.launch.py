@@ -47,6 +47,7 @@ def _setup(context):
                 ("~/navpvt", "/ublox/navpvt"),
                 ("navstate", "/ublox/navsat"),
                 ("/rtcm", profile.rtcm_topic),
+                # Supplied by the pinned-source F9P HPG RxmRAWX patch.
                 ("rxmrawx", "/ublox/rxmrawx"),
             ], output="screen"),
         Node(package="oit_gnss_monitor", executable="fix_quality_monitor",

@@ -12,7 +12,11 @@ colcon build --symlink-install --packages-up-to oit_gnss_bringup oit_gnss_monito
 source install/setup.bash
 ```
 
-Dependency revisions are fixed in `dependencies.repos`. Read [driver compatibility](docs/driver_compatibility.md) before hardware use: the selected upstream u-blox revision needs an F9P RAWX patch to meet that final topic contract.
+Dependency revisions are fixed in `dependencies.repos`. The pinned u-blox source must receive the reviewed F9P HPG RxmRAWX patch before build:
+
+```bash
+src/oit_gnss_ros2/scripts/apply_ublox_f9p_patch.sh
+```
 
 ## Start and operate
 
