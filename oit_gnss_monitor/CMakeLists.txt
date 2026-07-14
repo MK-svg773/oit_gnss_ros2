@@ -15,7 +15,13 @@ ament_target_dependencies(fix_quality sensor_msgs)
 add_executable(fix_quality_monitor src/fix_quality_monitor.cpp)
 target_link_libraries(fix_quality_monitor fix_quality)
 ament_target_dependencies(fix_quality_monitor diagnostic_updater rclcpp sensor_msgs)
-install(TARGETS fix_quality fix_quality_monitor DESTINATION lib/${PROJECT_NAME})
+install(
+  TARGETS fix_quality
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin
+)
+install(TARGETS fix_quality_monitor DESTINATION lib/${PROJECT_NAME})
 install(DIRECTORY include/ DESTINATION include)
 if(BUILD_TESTING)
   ament_add_gtest(test_fix_quality test/test_fix_quality.cpp)

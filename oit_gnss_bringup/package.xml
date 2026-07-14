@@ -1,1 +1,24 @@
-<?xml version="1.0"?><package format="3"><name>oit_gnss_bringup</name><version>0.1.0</version><description>Bringup and operational tooling for ZED-F9P GNSS.</description><maintainer email="maintainer@example.invalid">OIT</maintainer><license>Apache-2.0</license><buildtool_depend>ament_cmake</buildtool_depend><exec_depend>ament_index_python</exec_depend><exec_depend>launch</exec_depend><exec_depend>launch_ros</exec_depend><exec_depend>oit_gnss_monitor</exec_depend><exec_depend>python3-yaml</exec_depend><exec_depend>rclpy</exec_depend><exec_depend>rosbag2_transport</exec_depend><exec_depend>ublox_gps</exec_depend><exec_depend>ntrip_client</exec_depend><export><build_type>ament_cmake</build_type></export></package>
+<?xml version="1.0"?>
+<package format="3">
+  <name>oit_gnss_bringup</name>
+  <version>0.1.0</version>
+  <description>Bringup, validation, and rosbag tooling for ZED-F9P GNSS.</description>
+  <maintainer email="189582101+MK-svg773@users.noreply.github.com">MK-svg773</maintainer>
+  <license>Apache-2.0</license>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <exec_depend>ament_index_python</exec_depend>
+  <exec_depend>diagnostic_msgs</exec_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>nav_msgs</exec_depend>
+  <exec_depend>ntrip_client</exec_depend>
+  <exec_depend>oit_gnss_monitor</exec_depend>
+  <exec_depend>python3-yaml</exec_depend>
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>ros2bag</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>tf2_msgs</exec_depend>
+  <exec_depend>ublox_gps</exec_depend>
+  <exec_depend>ublox_msgs</exec_depend>
+  <export><build_type>ament_cmake</build_type></export>
+</package>

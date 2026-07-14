@@ -1,5 +1,8 @@
 fix_quality_monitor:
   ros__parameters:
-    max_horizontal_stddev: 5.0
+    max_horizontal_combined_stddev: 5.0
     max_vertical_stddev: 10.0
     max_age_sec: 2.0
+    require_finite_altitude: false
+    require_known_covariance: true
+    diagnostics.publish_location: false

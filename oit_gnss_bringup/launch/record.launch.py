@@ -1,11 +1,31 @@
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, OpaqueFunction
-from launch.substitutions import LaunchConfiguration
-from launch_ros.actions import Node
-TOPICS=["/fix","/fix_raw","/odom","/imu","/tf","/tf_static","/hesai/pandar","/ublox/navpvt","/ublox/navsat","/ublox/rxmrawx","/diagnostics","/ublox/navstatus","/ublox/rxmrtcm","/rtcm"]
+from launch.actions import DeclareLaunchArgument, ExecuteProcess, OpaqueFunction
+
+
+TOPICS = [
+    "/fix", "/fix_raw", "/odom", "/imu", "/tf", "/tf_static", "/hesai/pandar",
+    "/ublox/navpvt", "/ublox/navsat", "/ublox/rxmrawx", "/diagnostics",
+    "/ublox/navstatus", "/ublox/rxmrtcm", "/rtcm",
+]
+
+
 def _record(context):
-    arguments=["record","--output",LaunchConfiguration("output"),"--storage",LaunchConfiguration("storage")]
-    compression=context.launch_configurations["compression"].strip()
-    if compression: arguments += ["--compression-mode","file","--compression-format",compression]
-    return [Node(package="rosbag2_transport",executable="ros2bag",arguments=arguments+TOPICS,output="screen")]
-def generate_launch_description(): return LaunchDescription([DeclareLaunchArgument("output",default_value="rosbag2_gnss"),DeclareLaunchArgument("storage",default_value="mcap"),DeclareLaunchArgument("compression",default_value=""),OpaqueFunction(function=_record)])
+    command = ["ros2", "bag", "record", "--output", context.launch_configurations["output"],
+               "--storage", context.launch_configurations["storage"]]
+    mode = context.launch_configurations["compression_mode"].strip()
+    fmt = context.launch_configurations["compression_format"].strip()
+    if mode != "none":
+        if mode not in {"file", "message"} or not fmt:
+            raise RuntimeError("compression_mode must be none, file, or message; format is required when enabled")
+        command.extend(["--compression-mode", mode, "--compression-format", fmt])
+    return [ExecuteProcess(cmd=command + TOPICS, output="screen")]
+
+
+def generate_launch_description():
+    return LaunchDescription([
+        DeclareLaunchArgument("output", default_value="rosbag2_gnss"),
+        DeclareLaunchArgument("storage", default_value="mcap"),
+        DeclareLaunchArgument("compression_mode", default_value="none"),
+        DeclareLaunchArgument("compression_format", default_value=""),
+        OpaqueFunction(function=_record),
+    ])

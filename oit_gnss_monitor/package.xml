@@ -1,1 +1,14 @@
-<?xml version="1.0"?><package format="3"><name>oit_gnss_monitor</name><version>0.1.0</version><description>Quality gate for GNSS fixes.</description><maintainer email="maintainer@example.invalid">OIT</maintainer><license>Apache-2.0</license><buildtool_depend>ament_cmake</buildtool_depend><test_depend>ament_cmake_gtest</test_depend><depend>diagnostic_updater</depend><depend>rclcpp</depend><depend>sensor_msgs</depend><export><build_type>ament_cmake</build_type></export></package>
+<?xml version="1.0"?>
+<package format="3">
+  <name>oit_gnss_monitor</name>
+  <version>0.1.0</version>
+  <description>Quality gate and diagnostics for GNSS fixes.</description>
+  <maintainer email="189582101+MK-svg773@users.noreply.github.com">MK-svg773</maintainer>
+  <license>Apache-2.0</license>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <test_depend>ament_cmake_gtest</test_depend>
+  <depend>diagnostic_updater</depend>
+  <depend>rclcpp</depend>
+  <depend>sensor_msgs</depend>
+  <export><build_type>ament_cmake</build_type></export>
+</package>
